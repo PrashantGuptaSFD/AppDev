@@ -1,0 +1,8 @@
+<!--/* 
+* Class Name  	:   JSONDataWrapper 
+* Description   :   Wrapper class to create json data for tree structure
+*/-->
+<apex:Page >
+    <c:jsTreeComponent >
+    </c:jsTreeComponent>
+</apex:Page>
