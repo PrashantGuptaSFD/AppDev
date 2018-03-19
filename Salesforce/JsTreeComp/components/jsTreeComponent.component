@@ -1,0 +1,121 @@
+<!--/* 
+* Class Name  	:   jsTreeComponent
+* Description   :   Apex component to Show Tree Structure
+*/-->
+<apex:component controller="jsTreeComponentController" allowDML="true">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <style>
+        .jstree-default .jstree-open>.jstree-ocl{
+            background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0ZWQgYnkgSWNvTW9vbi5pbyAtLT4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI3NjgiIGhlaWdodD0iNzY4IiB2aWV3Qm94PSIwIDAgNzY4IDc2OCI+CjxnIGlkPSJpY29tb29uLWlnbm9yZSI+CjwvZz4KPHBhdGggZmlsbD0iIzAwMCIgZD0iTTEyOCAzMmg1MTJxMzkuNzUgMCA2Ny44NzUgMjguMTI1dDI4LjEyNSA2Ny44NzV2NTEycTAgMzkuNzUtMjguMTI1IDY3Ljg3NXQtNjcuODc1IDI4LjEyNWgtNTEycS0zOS43NSAwLTY3Ljg3NS0yOC4xMjV0LTI4LjEyNS02Ny44NzV2LTUxMnEwLTM5Ljc1IDI4LjEyNS02Ny44NzV0NjcuODc1LTI4LjEyNXpNNjQwIDk2aC01MTJxLTEzLjI1IDAtMjIuNjI1IDkuMzc1dC05LjM3NSAyMi42MjV2NTEycTAgMTMuMjUgOS4zNzUgMjIuNjI1dDIyLjYyNSA5LjM3NWg1MTJxMTMuMjUgMCAyMi42MjUtOS4zNzV0OS4zNzUtMjIuNjI1di01MTJxMC0xMy4yNS05LjM3NS0yMi42MjV0LTIyLjYyNS05LjM3NXpNMjU2IDM1MmgyNTZxMTMuMjUgMCAyMi42MjUgOS4zNzV0OS4zNzUgMjIuNjI1LTkuMzc1IDIyLjYyNS0yMi42MjUgOS4zNzVoLTI1NnEtMTMuMjUgMC0yMi42MjUtOS4zNzV0LTkuMzc1LTIyLjYyNSA5LjM3NS0yMi42MjUgMjIuNjI1LTkuMzc1eiI+PC9wYXRoPgo8L3N2Zz4K") !important;
+            background-size:18px;
+            background-position: 5px 3px;
+            background-color:white;
+        }
+        .jstree-default .jstree-closed>.jstree-ocl{
+            background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0ZWQgYnkgSWNvTW9vbi5pbyAtLT4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI3NjgiIGhlaWdodD0iNzY4IiB2aWV3Qm94PSIwIDAgNzY4IDc2OCI+CjxnIGlkPSJpY29tb29uLWlnbm9yZSI+CjwvZz4KPHBhdGggZmlsbD0iIzAwMCIgZD0iTTEyOCAzMmg1MTJxMzkuNzUgMCA2Ny44NzUgMjguMTI1dDI4LjEyNSA2Ny44NzV2NTEycTAgMzkuNzUtMjguMTI1IDY3Ljg3NXQtNjcuODc1IDI4LjEyNWgtNTEycS0zOS43NSAwLTY3Ljg3NS0yOC4xMjV0LTI4LjEyNS02Ny44NzV2LTUxMnEwLTM5Ljc1IDI4LjEyNS02Ny44NzV0NjcuODc1LTI4LjEyNXpNNjQwIDk2aC01MTJxLTEzLjI1IDAtMjIuNjI1IDkuMzc1dC05LjM3NSAyMi42MjV2NTEycTAgMTMuMjUgOS4zNzUgMjIuNjI1dDIyLjYyNSA5LjM3NWg1MTJxMTMuMjUgMCAyMi42MjUtOS4zNzV0OS4zNzUtMjIuNjI1di01MTJxMC0xMy4yNS05LjM3NS0yMi42MjV0LTIyLjYyNS05LjM3NXpNMzg0IDIyNHExMy4yNSAwIDIyLjYyNSA5LjM3NXQ5LjM3NSAyMi42MjV2OTZoOTZxMTMuMjUgMCAyMi42MjUgOS4zNzV0OS4zNzUgMjIuNjI1LTkuMzc1IDIyLjYyNS0yMi42MjUgOS4zNzVoLTk2djk2cTAgMTMuMjUtOS4zNzUgMjIuNjI1dC0yMi42MjUgOS4zNzUtMjIuNjI1LTkuMzc1LTkuMzc1LTIyLjYyNXYtOTZoLTk2cS0xMy4yNSAwLTIyLjYyNS05LjM3NXQtOS4zNzUtMjIuNjI1IDkuMzc1LTIyLjYyNSAyMi42MjUtOS4zNzVoOTZ2LTk2cTAtMTMuMjUgOS4zNzUtMjIuNjI1dDIyLjYyNS05LjM3NXoiPjwvcGF0aD4KPC9zdmc+Cg==") !important;
+            background-size:18px;
+            background-position: 5px 3px;
+            background-color:white;
+        }
+        i.jstree-icon.jstree-themeicon{
+            display:none !important;
+        }
+        
+        .EditFolderPop{
+            cursor:hand;
+            cursor:pointer;
+        }
+        .DeleteFolderPop{
+            cursor:hand;
+            cursor:pointer;
+        }
+        .treeDiv{
+            width:100%;
+            overflow-x:auto;
+        }
+        .iconBox{
+            display:inline-block;
+        }
+        #TreeContainer-Header{
+            margin:5px;  
+            width: -webkit-fill-available;
+        }
+        #TreeContainer-Footer{
+            margin:5px;  
+            width: -webkit-fill-available;
+        }
+        #TreeContainer-Body{
+            margin:5px;  
+            width: -webkit-fill-available;
+        }
+        
+        #TreeContainer{
+            border: 1px solid black;
+            border-radius: 5px;
+            width: fit-content;
+        }
+    </style>
+    <!--Script to create Tree-->
+    <script>
+    var treedata;
+    
+    function createTree(divId, jsonData) {
+        var block = $(divId)[0];
+        treedata = JSON.parse(jsonData);
+        
+        $(divId).jstree({
+            'core': {
+                'data': treedata
+            },
+            "search": {
+                "case_insensitive": true,
+                "show_only_matches" : true
+            },
+            "plugins": ["search"]
+        });
+        var to = false;
+        $('#SearchBox').keyup(function () {
+            if(to) { 
+                clearTimeout(to); 
+            }
+            to = setTimeout(function () {
+              var v = $('#SearchBox').val();
+              $(divId).jstree(true).search(v);
+            }, 250);
+        });
+        if({!hasClickAction}){
+            $(divId).on("select_node.jstree",
+                 function(evt, data){
+                      window.open(url, '_blank');
+                 }
+            );
+        }
+        $(divId).on("ready.jstree", function(){
+            
+        });
+        
+        
+    }
+    
+    </script>
+    <!-- HTML -->
+    <div id='TreeContainer'>
+        <div id='TreeContainer-Header' >
+            <input type="text" id= "SearchBox" name="Search" placeholder="Search" style="display:{!IF((showSearchBox) , 'block' , 'none')}; width: -webkit-fill-available;"/>
+        </div>
+        <div  id='TreeContainer-Body'>
+            <div id="jasonTreediv" class="treeDiv"></div>
+        </div>
+        <div id='TreeContainer-Footer' >
+            <!--Placeholder-->
+        </div>
+        
+    </div>
+    <script>
+        createTree('#jasonTreediv', '{!JSENCODE(jasonString)}');
+    </script>
+    
+    
+</apex:component>
