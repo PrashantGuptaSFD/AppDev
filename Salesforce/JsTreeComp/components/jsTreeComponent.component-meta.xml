@@ -4,7 +4,7 @@
     <label>jsTreeComponent</label>
     <packageVersions>
         <majorNumber>1</majorNumber>
-        <minorNumber>82</minorNumber>
-        <namespace>CRMC_PP</namespace>
+        <minorNumber>7</minorNumber>
+        <namespace>sf_com_apps</namespace>
     </packageVersions>
 </ApexComponent>

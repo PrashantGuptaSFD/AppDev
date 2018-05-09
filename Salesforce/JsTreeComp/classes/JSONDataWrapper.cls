@@ -7,7 +7,7 @@ public class JSONDataWrapper {
     public String text;
     public String icon;
     public String parent;
-    public State state;
+    public State state = new State();
     public Object liAttributes;
     public Object aAttributes;
     //List of Special attributes for Tree nodes
