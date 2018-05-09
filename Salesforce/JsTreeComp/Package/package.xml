@@ -3,6 +3,7 @@
     <types>
         <members>JSONDataWrapper</members>
         <members>jsTreeComponentController</members>
+        <members>jsTreeComponentControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
